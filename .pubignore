@@ -1,0 +1,12 @@
+# pub reads .pubignore instead of .gitignore when it exists, so the build
+# output from .gitignore is repeated here.
+.dart_tool/
+build/
+/doc/api/
+/internal
+/tool
+/.github
+/.vscode
+cliff.toml
+lefthook.yml
+release.sh

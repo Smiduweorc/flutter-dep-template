@@ -1,0 +1,15 @@
+# Local-only agent prompts, copied from ../prompts.
+/internal
+
+.dart_tool/
+# Libraries do not commit a lockfile, so CI resolves the newest versions the
+# ranges in pubspec.yaml allow, the same as a consuming app would.
+pubspec.lock
+build/
+/doc/api/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+.DS_Store
+*.log

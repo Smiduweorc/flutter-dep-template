@@ -1,0 +1,19 @@
+name: flutter_lib_template
+description: Flutter package template with tests, lints, CI and a changelog driven by conventional commits.
+version: 0.0.0
+repository: https://github.com/grMLEqomlkkU5Eeinz4brIrOVCUCkJuN/flutter-lib-template
+
+# The floors are the versions CI tests against (the "minimum" matrix entry in
+# .github/workflows/ci.yml). Raise both together.
+environment:
+  sdk: ^3.13.0
+  flutter: ">=3.47.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ">=6.0.0 <7.0.0"

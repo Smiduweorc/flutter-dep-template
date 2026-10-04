@@ -1,0 +1,17 @@
+# Install once per clone with `lefthook install` (lefthook is a standalone
+# binary; see the README). YAML requires spaces for indentation, and so does
+# dart format, so nothing in this repo uses tabs.
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      glob: "*.dart"
+      run: dart format --output=none --set-exit-if-changed {staged_files}
+    analyze:
+      glob: "*.dart"
+      run: flutter analyze --no-pub
+
+commit-msg:
+  commands:
+    conventional:
+      run: tool/check-commit-msg.sh {1}
