@@ -1,27 +1,19 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Part of the Flutter package template does not work
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Which part**
 
-**To Reproduce**
-Steps to reproduce the behavior:
+[e.g. flutter analyze, dart format, tests, the example app, dart doc, git hooks, CI, release.sh]
 
-1. Go to '...'
-2. Run '....'
-3. See error
+**What you ran, and the full output**
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**What you expected**
 
-**Environment (please complete the following information):**
+**Environment**
 
-- OS: [e.g. Ubuntu 24.04, Windows 11, macOS 15]
 - Flutter version (`flutter --version`): [e.g. 3.47.5]
 - Target platform: [e.g. Android 15, iOS 18]
-- Package version: [e.g. 1.0.0]
-
-**Additional context**
-Add any other context about the problem here.
+- OS: [e.g. Ubuntu 24.04, Windows 11, macOS 15]
+- Template commit: [`git rev-parse --short HEAD`]

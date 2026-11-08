@@ -1,124 +1,43 @@
 # flutter_lib_template
 
-A template for Flutter packages that other apps depend on, set up for tests,
-lints, CI and a changelog built from commit messages.
+A template for a Flutter package that other apps depend on, with strict
+analysis, tests, an example app, `dart doc` on GitHub Pages and a changelog
+built from commit messages. CI runs on Linux, macOS and Windows against
+Flutter 3.47 and the latest stable.
 
-> Publishing is manual (`flutter pub publish`), so no publish workflow is
-> included.
+## Starting from it
 
-## What's inside
+Requires Flutter 3.47 or later, plus `lefthook` and `git-cliff` on your
+`PATH`.
 
-- **Package layout**: `lib/flutter_lib_template.dart` is the only public entry
-  point and re-exports named symbols from `lib/src/` with `show`. Anything in
-  `lib/src/` that is not re-exported is private to the package.
-- **Analysis**: `flutter_lints` plus strict casts, strict inference, strict raw
-  types, double quotes, a doc comment required on every public member, and
-  `comment_references` so a `[link]` in a doc comment must resolve.
-  `flutter analyze` exits non-zero on any finding, infos included.
-- **Formatting**: `dart format`. It always indents with two spaces and has no
-  option for tabs, so this repo does not use tabs.
-- **Testing**: `flutter test`, with plain `test` for functions and
-  `testWidgets` for widgets. Tests import `package:flutter_lib_template/...`,
-  the same import a consuming app uses.
-- **Example**: `example/` is a minimal app that depends on the package by path.
-  CI analyzes it, so an export missing from the entry point fails the build.
-- **API docs**: `dart doc` writes HTML to `doc/api/`, published to GitHub Pages
-  by `.github/workflows/pages.yml`. `dartdoc_options.yaml` turns an unresolved
-  doc reference into an error.
-- **Conventional Commits**: `tool/check-commit-msg.sh` accepts the same types
-  as `@commitlint/config-conventional`, and [git-cliff](https://git-cliff.org)
-  turns the history into `CHANGELOG.md`.
-- **Git hooks**: [lefthook](https://lefthook.dev) checks formatting and runs
-  `flutter analyze` before a commit, and checks the commit message.
-- **CI**: `.github/workflows/ci.yml` checks formatting, analyzes, tests and
-  analyzes the example on Linux, macOS and Windows, against the minimum
-  Flutter version in `pubspec.yaml` and the latest stable.
-- **Dependabot**: daily pub and GitHub Actions update PRs.
-
-## Getting started
-
-Requires Flutter 3.47 or later, plus `lefthook` and `git-cliff` on your `PATH`
-(both are single binaries, available from most package managers).
-
-1. Copy this directory, then run `git init`, `lefthook install` and
+1. Copy the directory, then run `git init`, `lefthook install` and
    `flutter pub get`.
 2. Rename the package: `name` in `pubspec.yaml` and `example/pubspec.yaml`, the
-   entry point file `lib/flutter_lib_template.dart`, and every
+   entry point `lib/flutter_lib_template.dart`, and every
    `package:flutter_lib_template/` import. Update `description` and
    `repository` too.
-3. Replace `lib/src/greet.dart` and `lib/src/greeting.dart` with your
-   implementation and update the `export` lines in the entry point.
-4. Add tests under `test/` as `*_test.dart`.
+3. Replace `lib/src/greet.dart` and `lib/src/greeting.dart`, and the `export`
+   lines in the entry point. Anything in `lib/src/` that is not exported stays
+   private. Tests go under `test/` as `*_test.dart`.
 
-## Commands
+`example/` depends on the package by path and CI analyzes it, so an export
+missing from the entry point fails the build. There is no publish workflow;
+run `flutter pub publish` yourself.
 
-| Command | What it does |
-| --- | --- |
-| `flutter pub get` | Resolve dependencies. |
-| `flutter analyze` | Run the analyzer and lints. |
-| `dart format .` | Format all Dart files. |
-| `flutter test` | Run the test suite. |
-| `dart doc` | Generate HTML API docs into `doc/api/`. |
-| `flutter pub publish --dry-run` | Show what would be uploaded and validate it. |
-| `git-cliff -o CHANGELOG.md` | Regenerate `CHANGELOG.md` from the commit history. |
-
-## Conventional commits and git hooks
-
-Commit subjects follow [Conventional Commits](https://www.conventionalcommits.org):
-`type(optional scope): description`, lowercase type, at most 100 characters.
-The accepted types are `build`, `chore`, `ci`, `docs`, `feat`, `fix`, `perf`,
-`refactor`, `revert`, `style` and `test`. The check is a shell script rather
-than commitlint, so working on a Dart package does not require Node.
-
-- **pre-commit**: `dart format` on staged Dart files, then `flutter analyze`
-  on the whole package (the analyzer cannot check a single file in isolation
-  from its imports).
-- **commit-msg**: `tool/check-commit-msg.sh`.
-
-## Project layout
-
-```
-.
-|-- lib/
-|   |-- flutter_lib_template.dart   # public entry point, re-exports from src/
-|   `-- src/                        # implementation
-|-- test/                           # *_test.dart, run with flutter test
-|-- example/                        # app consuming the package by path
-|-- tool/check-commit-msg.sh        # Conventional Commits check
-|-- analysis_options.yaml
-|-- dartdoc_options.yaml
-|-- pubspec.yaml
-|-- CHANGELOG.md                    # generated by git-cliff
-|-- cliff.toml
-|-- lefthook.yml
-|-- release.sh                      # version bump + changelog + annotated tag
-|-- .pubignore                      # what flutter pub publish leaves out
-|-- .vscode/
-`-- .github/
-    |-- ISSUE_TEMPLATE/
-    |-- workflows/ci.yml
-    |-- workflows/pages.yml
-    `-- dependabot.yml
-```
-
-## Publishing (manual)
-
-`.pubignore` keeps the tooling (`.github/`, `tool/`, hooks, release and
-changelog config) out of the upload; `flutter pub publish --dry-run` lists exactly what would be
-sent.
-
-To cut a release, `./release.sh v[X.Y.Z]` sets `version` in `pubspec.yaml`,
-regenerates `CHANGELOG.md`, commits, and creates an annotated tag. Then:
-
-```sh
-git push && git push --tags
-flutter pub publish
-```
+Commits follow Conventional Commits and `./release.sh v1.2.0` cuts a release;
+[black-garden-ants](https://github.com/Smiduweorc/black-garden-ants) explains
+both. Here the commit check is `tool/check-commit-msg.sh`, so a Dart package
+needs no Node, and this `release.sh` is an older one that takes only an
+explicit version.
 
 ## Known quirks
 
+- `dart format` always indents with two spaces and has no option for tabs, so
+  this repo does not use tabs.
 - CI skips the publish dry run while `version` is `0.0.0`, because pub rejects
   a changelog with no entry for the current version. It runs from the first
   release onwards.
 - `pubspec.lock` is not committed, as is usual for a library: CI resolves the
   newest versions the ranges allow, which is what a consuming app gets.
+- `flutter analyze` exits non-zero on any finding, infos included, and every
+  public member needs a doc comment.
